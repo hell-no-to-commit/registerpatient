@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8"/>
+	<link rel="stylesheet" th:href="@{css/style.css}">
+	<title>this is patient list page</title>
+</head>
+
+<body>
+	<section>
+		<div class="card mr-5 ml-5 mt-5 mb-5 bg-light">
+			<div class="card-body">
+				<h1 class="text-center">Your patients</h1>
+				<!-- search contact-->
+				<div class="search-container my-4">
+					<input onkeyup="search()" id="search-input" type="text" class="form-control"
+						placeholder="Search for a patient here"></input>
+					<div class="search-result">
+						<!--Result will be shown here-->
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">#ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Phone</th>
+								<th scope="col">Date Of Birth</th>
+								<th scope="col">Primary Illness</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p : ${patients}">
+								<th scope="row" th:text="${'PMS2024'+p.patientId}">1</th>
+								<td th:text="${p.patientName}"> test1</td>
+								<td th:text="${p.patientContact}"> test2</td>
+								<td th:text="${p.patientDOB}"> test3</td>
+								<td th:text="${p.patientIllness}"> test4</td>
+								<td>
+									<div class="form-row">
+										<form method="post" th:action="@{'/patient/'+${p.patientId}}">
+											<button type="submit" class="btn btn-primary btn-sm">view Details</button>
+										</form>
+										<!--<button href="#" class="btn btn-warning btn-sm ml-2">Update</button>-->
+										
+										<form method="post" th:action="@{'/updatePatient/'+${p.patientId}}">
+											<button type="submit" class="btn btn-warning btn-sm ml-3">Update Details</button>
+										</form>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!--Pagination part-->
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li th:if="${currentPage != 0}" class="page-item"><a
+								th:href="@{'/showPatients/'+${currentPage-1}}" class="page-link" href="#">Previous</a>
+						</li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i : ${#numbers.sequence(1,totalPages)}" class="page-item"><a
+								th:href="@{'/showPatients/'+${i-1}}" class="page-link" href="#"><span
+									th:text="${i}"></span></a></li>
+						<li th:if="${currentPage+1 != totalPages}" class="page-item"><a
+								th:href="@{'/showPatients/'+${currentPage+1}}" class="page-link" href="#">Next</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

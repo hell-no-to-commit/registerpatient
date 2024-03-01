@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<div class="my-card mt-1 bg-light">
+						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="danger">
+							<p th:text="${session.message.content}"></p>		
+						</div>						
+						
+						<form  action="" th:action="@{/do_register}" method="post" th:object="${patient}">
+							<div class="card">
+						  		<div class="card-body">
+									
+									<div class="container text-center">
+										<img src="" th:src="@{/image/patient_logo.png}" alt="patient_logo" style="height: 60px; width: 60px;" >
+									</div>
+									<h2 class="text-center mb-4">Update the Patient Details</h2>
+									<div class="form-group">
+										<label for="patientName">Patient Full Name</label>
+										<input name="patientName" 
+											type="text" 
+											class="form-control" 
+											th:classappend="${#fields.hasErrors('patientName')? 'is-invalid':''}"  
+											id="patientName" 
+											aria-describedby="patientNameHelp" 
+											placeholder="Enter patient full name" 
+											required
+											th:value="${patient.patientName}"
+											/>	
+										<div class="invalid-feedback" th:each="e: ${#fields.errors('patientName')}" th:text="${e}">
+											Please provide a valid username.
+										</div>
+										
+										<div class="form-row mt-3">
+										    <div class="form-group col-md-6">
+										      	<label for="patientDOB">Date of Birth</label>
+												<input name="patientDOB" 
+													type="date" 
+													class="form-control" 
+													id="patientDOB" 
+													aria-describedby="patientDOBHelp" 
+													placeholder="Enter date of birth" 
+													required
+													th:value="${patient.patientDOB}"
+													/>
+										    </div>
+										    <div class="form-group col-md-6">
+										      	<label for="patientAdhaar">Adhaar Number</label>
+												<input name="patientAdhaar" 
+													type="text" 
+													class="form-control" 
+													id="patientAdhaar" 
+													aria-describedby="patientAdhaarHelp" 
+													placeholder="Enter adhaar card number" 
+													required
+													th:value="${patient.patientAdhaar}"
+													/>
+										    </div>
+									 	</div>	
+		
+										<div class="form-row">
+										    <div class="form-group col-md-6">
+										      	<label for="patientContact">Contact Number</label>
+												<input name="patientContact" 
+													type="number" 
+													class="form-control" 
+													id="patientContact" 
+													aria-describedby="patientContactHelp" 
+													placeholder="Enter contact number" 
+													required
+													th:value="${patient.patientContact}"
+													/>
+										    </div>
+										    <div class="form-group col-md-6">
+										      	<label for="patientEmergencyContact">Emergency Contact Number</label>
+												<input name="patientEmergencyContact" 
+													type="number" 
+													class="form-control" 
+													id="patientEmergencyContact" 
+													aria-describedby="patientEmergencyContactHelp" 
+													placeholder="Enter contact number" 
+													required
+													th:value="${patient.patientEmergencyContact}"
+													/>
+										    </div>
+									 	</div>
+											
+										<label for="patientAddress">Address</label>
+										<input name="patientAddress" 
+											type="text" 
+											class="form-control" 
+											id="patientAddress" 
+											aria-describedby="patientAddressHelp" 
+											placeholder="Enter address" 
+											required
+											th:value="${patient.patientAddress}"
+											/>
+										
+										<div class="form-row mt-3">
+										    <div class="form-group col-md-6">
+										      	<label for="patientIllness">Primary Illness</label>
+												<input name="patientIllness" 
+													type="text" 
+													class="form-control" 
+													id="patientIllness" 
+													aria-describedby="patientIllnessHelp" 
+													placeholder="Enter primary illness" 
+													required
+													th:value="${patient.patientIllness}"
+													/>
+										    </div>
+										    <div class="form-group col-md-6">
+										      	<label for="patientpreferredDoctorGender">Doctor Gender Preference</label>
+										  	      <select class="custom-select mr-sm-2" name="patientpreferredDoctorGender" id="patientpreferredDoctorGender">
+											        <option selected>Choose...</option>
+											        <option value="1">Male</option>
+											        <option value="2">Female</option>
+											      </select>
+											    </div>
+										    </div>
+									 	</div>		
+				
+										<label for="patientSymptoms">Symptoms</label>
+										<input name="patientSymptoms" 
+											type="text" 
+											class="form-control" 
+											id="patientSymptoms" 
+											aria-describedby="patientSymptomsHelp" 
+											placeholder="Enter symptoms" 
+											required
+											th:value="${patient.patientSymptoms}"
+											/>
+											
+										<div class="form-row mt-3">
+										    <div class="form-group col-md-6">
+										      	<label for="patientHealthPolicyOrg">Health Policy Organization</label>
+												<input name="patientHealthPolicyOrg" 
+													type="text" 
+													class="form-control" 
+													id="patientHealthPolicyOrg" 
+													aria-describedby="patientHealthPolicyOrgHelp" 
+													placeholder="Enter organization name" 
+													required
+													th:value="${patient.patientHealthPolicyOrg}"
+													/>
+										    </div>
+										    <div class="form-group col-md-6">
+										      	<label for="patientHealthPolicyNo">Health Policy Number</label>
+												<input name="patientHealthPolicyNo" 
+													type="text" 
+													class="form-control" 
+													id="patientHealthPolicyNo" 
+													aria-describedby="patientHealthPolicyNoHelp" 
+													placeholder="Enter policy number" 
+													required
+													th:value="${patient.patientHealthPolicyNo}"
+													/>
+										    </div>
+									 	</div>	
+									 	
+									 	<div>
+											<p>First Relative Information</p>
+										</div>
+									 	
+									 	<div class="card">
+										  	<div class="card-body">
+										    	<div class="form-row">
+												    <div class="form-group col-md-4">
+												      	<label for="firstAccompanyingName">Relative Name</label>
+														<input name="patient1stRelative.firstAccompanyingName" 
+															type="text" 
+															class="form-control" 
+															id="firstAccompanyingName" 
+															aria-describedby="firstAccompanyingNameHelp" 
+															placeholder="Enter Relative Name" 
+															required
+															th:value="${patient.patient1stRelative.firstAccompanyingName}"
+															/>
+												     </div>
+												     <div class="form-group col-md-4">
+												      	<label for="firstAccompanyingContact">Contact Number</label>
+														<input name="patient1stRelative.firstAccompanyingContact" 
+															type="text" 
+															class="form-control" 
+															id="firstAccompanyingContact" 
+															aria-describedby="firstAccompanyingContactHelp" 
+															placeholder="Enter contact number" 
+															required
+															th:value="${patient.patient1stRelative.firstAccompanyingContact}"
+															/>
+												    </div>
+												    <div class="form-group col-md-4">
+												      	<label for="firstAccompanyingAdhaarNo">Adhaar Number</label>
+														<input name="patient1stRelative.firstAccompanyingAdhaarNo" 
+															type="text" 
+															class="form-control" 
+															id="firstAccompanyingAdhaarNo" 
+															aria-describedby="firstAccompanyingAdhaarNoHelp" 
+															placeholder="Enter adhaar number" 
+															required
+															th:value="${patient.patient1stRelative.firstAccompanyingAdhaarNo}"
+															/>
+												    </div>
+									 			</div>
+										  	</div>
+										</div>
+										
+										<div class="mt-3">
+											<p>Second Relative Information</p>
+										</div>
+										
+										<div class="card">
+										  	<div class="card-body">
+										    	<div class="form-row">
+												    <div class="form-group col-md-4">
+												      	<label for="secondAccompanyingName">Relative Name</label>
+														<input name="patient2ndRelative.secondAccompanyingName" 
+															type="text" 
+															class="form-control" 
+															id="secondAccompanyingName" 
+															aria-describedby="secondAccompanyingNameHelp" 
+															placeholder="Enter Relative Name" 
+															required
+															th:value="${patient.patient2ndRelative.secondAccompanyingName}"
+															/>
+												    </div>
+												    
+												     <div class="form-group col-md-4">
+												      	<label for="secondAccompanyingContact">Contact Number</label>
+														<input name="patient2ndRelative.secondAccompanyingContact" 
+															type="text" 
+															class="form-control" 
+															id="secondAccompanyingContact" 
+															aria-describedby="secondAccompanyingContactHelp" 
+															placeholder="Enter contact number" 
+															required
+															th:value="${patient.patient2ndRelative.secondAccompanyingContact}"
+															/>
+												    </div>
+												    <div class="form-group col-md-4">
+												      	<label for="secondAccompanyingAdhaarNo">Adhaar Number</label>
+														<input name="patient2ndRelative.secondAccompanyingAdhaarNo" 
+															type="text" 
+															class="form-control" 
+															id="secondAccompanyingAdhaarNo" 
+															aria-describedby="secondAccompanyingAdhaarNoHelp" 
+															placeholder="Enter adhaar number" 
+															required
+															th:value="${patient.patient2ndRelative.secondAccompanyingAdhaarNo}"
+															/>
+												    </div>
+									 			</div>
+										  	</div>
+										</div>
+	  								</div>
+								</div>
+
+								<!--<div class="form-group">
+									<label for="exampleInputPassword1">Password</label>
+									<input name="password" type="password" class="form-control"
+										id="exampleInputPassword1" placeholder="Password" required>
+								</div>-->
+	
+								<div class="form-group form-check">
+									<input type="checkbox" name="agreement" class="form-check-input" id="agreement" required/>
+									<label for="agreement">I am agree to share my data</label>
+								</div>
+								
+								<div class="container text-center mt-2 mb-3">
+									<button type="submit" class="btn bg-primary text-white col-md-3">
+										submit
+									</button>
+									<button type="reset" class="btn bg-warning text-white col-md-3">
+										reset
+									</button>
+								</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	th:replace="base::layout(~{::section})">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>this is home page</title>
+</head>
+
+<body>
+
+	<section>
+		<div class="container card mt-3 bg-light" style="max-width: 40rem;">
+			<div class="card-body">
+				<div class="container">
+					<h3 class="text-center"> <span th:text="${patient.patientName}"></span> ( <span
+							th:text="${patient.patientDOB}"></span>
+						)</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">#ID</th>
+								<th scope="col">PMS2024<span th:text="${patient.patientId}"></span></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<th scope="row">Adhaar Number</th>
+								<td><span th:text="${patient.patientAdhaar}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Illness</th>
+								<td><span th:text="${patient.patientIllness}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Symptoms</th>
+								<td><span th:text="${patient.patientSymptoms}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">preferred Doctor Gender</th>
+								<td><span th:text="${patient.patientpreferredDoctorGender}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Health Policy Organization</th>
+								<td><span th:text="${patient.patientHealthPolicyOrg}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Health Policy Number</th>
+								<td><span th:text="${patient.patientHealthPolicyNo}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Contact Number</th>
+								<td><span th:text="${patient.patientContact}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row">Emergency Contact Number</th>
+								<td><span th:text="${patient.patientEmergencyContact}"></span></td>
+							</tr>
+							<!--<tr>
+								<th>details of first contact person</th>
+							</tr>-->
+							<tr>
+								<th scope="row">Address</th>
+								<td><span th:text="${patient.patientAddress}"></span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="form-row">
+			<div class="container card mt-3 bg-light" style="max-width: 30rem;">
+				<div class="card-body">
+					<div class="form-row ml-4">
+						<div class="form-table col-md-4">
+							<tr scope="row">
+								<h6>Name</h6>
+							</tr>
+							<td><span th:text="${patient.patient1stRelative.firstAccompanyingName}"></span></td>
+						</div>
+						<div class="form-group col-md-4">
+							<th scope="row">
+								<h6>Contact</h6>
+							</th>
+							<td><span th:text="${patient.patient1stRelative.firstAccompanyingContact}"></span></td>
+						</div>
+						<div class="form-group col-md-4">
+							<th scope="row">
+								<h6>Adhaar</h6>
+							</th>
+							<td><span th:text="${patient.patient1stRelative.firstAccompanyingAdhaarNo}"></span></td>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container card mt-3 bg-light" style="max-width: 30rem;">
+				<div class="card-body">
+					<div class="form-row ml-4">
+						<div class="form-table col-md-4">
+							<tr scope="row">
+								<h6>Name</h6>
+							</tr>
+							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingName}"></span></td>
+						</div>
+						<div class="form-group col-md-4">
+							<th scope="row">
+								<h6>Contact</h6>
+							</th>
+							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingContact}"></span></td>
+						</div>
+						<div class="form-group col-md-4">
+							<th scope="row">
+								<h6>Adhaar</h6>
+							</th>
+							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingAdhaarNo}"></span></td>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="text-center mt-2 mb-3">
+			<div class="container">
+				<div class="">
+					<form method="post" th:action="@{'/updatePatient/'+${patient.patientId}}">
+						<button type="submit" class="btn btn-warning btn-sm mt-2">Update</button>
+					</form>
+					<a th:href="@{/showPatients/0}" class="btn bg-primary btn-sm text-white mb-5 mt-2">Back</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>
