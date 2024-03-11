@@ -1,7 +1,5 @@
 package com.registerpatient.entities;
 
-
-
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
@@ -33,7 +31,7 @@ public class Patient {
 	@Column(name = "patient_dob")
 	private Date patientDOB;
 
-	 @Size(min = 4, max = 20, message = "minimum 4 and maximum 20 characters are allowed!!")
+	@Size(min = 4, max = 20, message = "minimum 4 and maximum 20 characters are allowed!!")
 	@Column(name = "patient_adhaar_no")
 	private String patientAdhaar;
 
@@ -57,11 +55,20 @@ public class Patient {
 	@Column(name = "patient_symptoms")
 	private String patientSymptoms;
 
-	@Column(name = "patient_health_policy_org")
-	private String patientHealthPolicyOrg;
+//	@Column(name = "patient_health_policy_org")
+//	private String patientHealthPolicyOrg;
+//
+//	@Column(name = "patient_health_policy_no")
+//	private String patientHealthPolicyNo;
 
-	@Column(name = "patient_health_policy_no")
-	private String patientHealthPolicyNo;
+	@Column(name = "patient_guardian_name")
+	private String patientGuardianName;
+
+	@Column(name = "patient_guardian_contact_no")
+	private String patientGuardianContactNo;
+
+	@Column(name = "patient_guardian_relationship")
+	private String patientGuardianRelationship;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private FirstAccompanying patient1stRelative;
@@ -69,29 +76,40 @@ public class Patient {
 	@OneToOne(cascade = CascadeType.ALL)
 	private SecondAccompanying patient2ndRelative;
 
-	public Patient() {
-		super();
-	}
+	@OneToOne(cascade = CascadeType.ALL)
+	private Policy policyDetails;
 
-	public Patient(int patientId, String patientName, Date patientDOB, String patientAddress, String patientAdhaar,
-			long patientContact, long patientEmergencyContact, String patientIllness, String patientSymptoms,
-			String patientHealthPolicyOrg, String patientHealthPolicyNo, String patientpreferredDoctorGender,
-			FirstAccompanying patient1stRelative, SecondAccompanying patient2ndRelative) {
+	public Patient(int patientId,
+			@NotBlank(message = "Name field is required!!") @Size(min = 4, max = 20, message = "minimum 4 and maximum 20 characters are allowed!!") String patientName,
+			Date patientDOB,
+			@Size(min = 4, max = 20, message = "minimum 4 and maximum 20 characters are allowed!!") String patientAdhaar,
+			long patientContact, long patientEmergencyContact, String patientAddress,
+			@Size(min = 4, max = 20, message = "minimum 4 and maximum 20 characters are allowed!!") String patientIllness,
+			String patientpreferredDoctorGender,
+			@Size(min = 4, max = 20, message = "minimum 4 and maximum 30 characters are allowed!!") String patientSymptoms,
+			String patientGuardianName, String patientGuardianContactNo, String patientGuardianRelationship,
+			FirstAccompanying patient1stRelative, SecondAccompanying patient2ndRelative, Policy policyDetails) {
 		super();
 		this.patientId = patientId;
 		this.patientName = patientName;
 		this.patientDOB = patientDOB;
-		this.patientAddress = patientAddress;
 		this.patientAdhaar = patientAdhaar;
 		this.patientContact = patientContact;
 		this.patientEmergencyContact = patientEmergencyContact;
+		this.patientAddress = patientAddress;
 		this.patientIllness = patientIllness;
-		this.patientSymptoms = patientSymptoms;
-		this.patientHealthPolicyOrg = patientHealthPolicyOrg;
-		this.patientHealthPolicyNo = patientHealthPolicyNo;
 		this.patientpreferredDoctorGender = patientpreferredDoctorGender;
+		this.patientSymptoms = patientSymptoms;
+		this.patientGuardianName = patientGuardianName;
+		this.patientGuardianContactNo = patientGuardianContactNo;
+		this.patientGuardianRelationship = patientGuardianRelationship;
 		this.patient1stRelative = patient1stRelative;
 		this.patient2ndRelative = patient2ndRelative;
+		this.policyDetails = policyDetails;
+	}
+
+	public Patient() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getPatientId() {
@@ -166,22 +184,6 @@ public class Patient {
 		this.patientSymptoms = patientSymptoms;
 	}
 
-	public String getPatientHealthPolicyOrg() {
-		return patientHealthPolicyOrg;
-	}
-
-	public void setPatientHealthPolicyOrg(String patientHealthPolicyOrg) {
-		this.patientHealthPolicyOrg = patientHealthPolicyOrg;
-	}
-
-	public String getPatientHealthPolicyNo() {
-		return patientHealthPolicyNo;
-	}
-
-	public void setPatientHealthPolicyNo(String patientHealthPolicyNo) {
-		this.patientHealthPolicyNo = patientHealthPolicyNo;
-	}
-
 	public String getPatientpreferredDoctorGender() {
 		return patientpreferredDoctorGender;
 	}
@@ -206,15 +208,49 @@ public class Patient {
 		this.patient2ndRelative = patient2ndRelative;
 	}
 
+	public Policy getPolicyDetails() {
+		return policyDetails;
+	}
+
+	public void setPolicyDetails(Policy policyDetails) {
+		this.policyDetails = policyDetails;
+	}
+
+	public String getPatientGuardianName() {
+		return patientGuardianName;
+	}
+
+	public void setPatientGuardianName(String patientGuardianName) {
+		this.patientGuardianName = patientGuardianName;
+	}
+
+	public String getPatientGuardianContactNo() {
+		return patientGuardianContactNo;
+	}
+
+	public void setPatientGuardianContactNo(String patientGuardianContactNo) {
+		this.patientGuardianContactNo = patientGuardianContactNo;
+	}
+
+	public String getPatientGuardianRelationship() {
+		return patientGuardianRelationship;
+	}
+
+	public void setPatientGuardianRelationship(String patientGuardianRelationship) {
+		this.patientGuardianRelationship = patientGuardianRelationship;
+	}
+
 	@Override
 	public String toString() {
 		return "Patient [patientId=" + patientId + ", patientName=" + patientName + ", patientDOB=" + patientDOB
-				+ ", patientAddress=" + patientAddress + ", patientAdhaar=" + patientAdhaar + ", patientContact="
-				+ patientContact + ", patientEmergencyContact=" + patientEmergencyContact + ", patientIllness="
-				+ patientIllness + ", patientSymptoms=" + patientSymptoms + ", patientHealthPolicyOrg="
-				+ patientHealthPolicyOrg + ", patientHealthPolicyNo=" + patientHealthPolicyNo
-				+ ", patientpreferredDoctorGender=" + patientpreferredDoctorGender + ", patient1stRelative="
-				+ patient1stRelative + ", patient2ndRelative=" + patient2ndRelative + "]";
+				+ ", patientAdhaar=" + patientAdhaar + ", patientContact=" + patientContact
+				+ ", patientEmergencyContact=" + patientEmergencyContact + ", patientAddress=" + patientAddress
+				+ ", patientIllness=" + patientIllness + ", patientpreferredDoctorGender="
+				+ patientpreferredDoctorGender + ", patientSymptoms=" + patientSymptoms + ", patientGuardianName="
+				+ patientGuardianName + ", patientGuardianContactNo=" + patientGuardianContactNo
+				+ ", patientGuardianRelationship=" + patientGuardianRelationship + ", patient1stRelative="
+				+ patient1stRelative + ", patient2ndRelative=" + patient2ndRelative + ", policyDetails=" + policyDetails
+				+ "]";
 	}
 
 }

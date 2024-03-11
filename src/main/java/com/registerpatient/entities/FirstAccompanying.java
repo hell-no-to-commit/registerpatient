@@ -13,15 +13,13 @@ public class FirstAccompanying {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "primary_accompanying_id")
 	private int firstAccompanyingId;
-	
-	
+
 	@Column(name = "primary_accompanying_name")
 	private String firstAccompanyingName;
-	
+
 	@Column(name = "primary_accompanying_contact_no")
 	private String firstAccompanyingContact;
-	
-	
+
 	@Column(name = "primary_accompanying_adhaar_no")
 	private String firstAccompanyingAdhaarNo;
 
@@ -42,7 +40,7 @@ public class FirstAccompanying {
 	public int getFirstAccompanyingId() {
 		return firstAccompanyingId;
 	}
-	
+
 	public void setFirstAccompanyingId(int firstAccompanyingId) {
 		this.firstAccompanyingId = firstAccompanyingId;
 	}

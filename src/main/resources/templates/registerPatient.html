@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"  th:replace="base::layout(~{::section})">
-	
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+	th:replace="base::layout(~{::section})">
+
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
 </head>
 
 <body>
@@ -11,284 +11,329 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-8 offset-md-2">
-					<div class="my-card mt-1 bg-light">
-						<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert" role="danger">
-							<p th:text="${session.message.content}"></p>		
-						</div>						
-						
-						<form  action="" th:action="@{/do_register}" method="post" th:object="${patient}">
-							<div class="card">
-						  		<div class="card-body">
-									
+					<div>
+						<p th:text="${capacity}">Capacity: </p>
+					</div>
+					<!--<div class="my-card mt-1">-->
+					<div th:if="${session.message}" th:classappend="${session.message.type}" class="alert"
+						role="danger">
+						<p th:text="${session.message.content}"></p>
+					</div>
+					<form id="regFormForPatient" action="" th:action="@{/do_register}" method="post"
+						th:object="${patient}">
+						<div class="card">
+							<div style="background-color: #ECE5C7;">
+								<div class="card-body">
 									<div class="container text-center">
-										<img src="" th:src="@{/image/patient_logo.png}" alt="patient_logo" style="height: 60px; width: 60px;" >
+										<img src="" th:src="@{/image/patient_logo.png}" alt="patient_logo"
+											style="height: 60px; width: 60px;">
 									</div>
 									<h2 class="text-center mb-4">Register Patient</h2>
 									<div class="form-group">
 										<label for="patientName">Patient Full Name</label>
-										<input name="patientName" 
-											type="text" 
-											class="form-control" 
-											th:classappend="${#fields.hasErrors('patientName')? 'is-invalid':''}"  
-											id="patientName" 
-											aria-describedby="patientNameHelp" 
-											placeholder="Enter patient full name" 
-											required
-											th:value="${patient.patientName}"
-											/>	
-										<div class="invalid-feedback" th:each="e: ${#fields.errors('patientName')}" th:text="${e}">
+										<input name="patientName" type="text" class="form-control"
+											th:classappend="${#fields.hasErrors('patientName')? 'is-invalid':''}"
+											id="patientName" aria-describedby="patientNameHelp"
+											placeholder="Enter patient full name" required
+											th:value="${patient.patientName}" />
+
+										<div class="invalid-feedback" th:each="e: ${#fields.errors('patientName')}"
+											th:text="${e}">
 											Please provide a valid username.
 										</div>
-										
 										<div class="form-row mt-3">
-										    <div class="form-group col-md-6">
-										      	<label for="patientDOB">Date of Birth</label>
-												<input name="patientDOB" 
-													type="date" 
-													class="form-control" 
-													id="patientDOB" 
-													aria-describedby="patientDOBHelp" 
-													placeholder="Enter date of birth" 
-													required
-													th:value="${patient.patientDOB}"
-													/>
-										    </div>
-										    <div class="form-group col-md-6">
-										      	<label for="patientAdhaar">Adhaar Number</label>
-												<input name="patientAdhaar" 
-													type="text" 
-													class="form-control" 
-													id="patientAdhaar" 
-													aria-describedby="patientAdhaarHelp" 
-													placeholder="Enter adhaar card number" 
-													required
-													th:value="${patient.patientAdhaar}"
-													/>
-										    </div>
-									 	</div>	
-		
+											<div class="form-group col-md-6">
+												<label for="patientDOB">Date of Birth</label>
+												<input name="patientDOB" type="date" class="form-control"
+													id="patientDOB" min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" aria-describedby="patientDOBHelp"
+													placeholder="Enter date of birth" required
+													th:value="${patient.patientDOB}" />
+
+												<div class="ml-4">
+													<input type="checkbox" id="underageOrPhysicallyDisabled"
+														onchange="toggleDetailsField()">
+													<label for="flexCheckChecked">
+														under 18 years or physically disabled?
+													</label>
+												</div>
+
+											</div>
+											<div class="form-group col-md-6">
+												<label for="patientAdhaar">Adhaar Number</label>
+												<input name="patientAdhaar" type="text" class="form-control"
+													id="patientAdhaar" aria-describedby="patientAdhaarHelp"
+													placeholder="Enter 12 digit adhaar number" required maxlength="12"
+													pattern="[0-9]{12}" th:value="${patient.patientAdhaar}" />
+											</div>
+											<div class="invalid-feedback">
+												Please provide a valid value.
+											</div>
+										</div>
+										<div class="card" id="detailsField" style="display: none;">
+											<div class="card-body">
+
+												<p><strong>Gaurdian Details</strong></p>
+
+												<div class="form-row">
+													<div class="form-group">
+														<div class="ml-2">
+															<label for="patientGuardianName">Name</label>
+															<input type="text" id="patientGuardianName" 
+															placeholder="Enter guardian name"
+																name="patientGuardianName"
+																th:value="${patient.patientGuardianName}" />
+														</div>
+													</div>
+
+													<div class="form-group">
+														<div class="ml-4">
+															<label for="patientGuardianContactNo">Mobile Number</label>
+															<input name="patientGuardianContactNo" type="tel"
+																id="patientGuardianContactNo" maxlength="10"
+																pattern="[0-9]{10}" placeholder="Enter 10 digit mobile number"
+																th:value="${patient.patientGuardianContactNo}" />
+														</div>
+													</div>
+
+
+													<div class="form-group">
+														<div class="ml-4">
+															<label
+																for="patientGuardianRelationship">Relationship</label>
+															<input type="text" id="patientGuardianRelationship"
+																name="patientGuardianRelationship" placeholder="relationship with patient"
+																th:value="${patient.patientGuardianRelationship}" />
+														</div>
+													</div>
+
+
+												</div>
+											</div>
+										</div>
+
 										<div class="form-row">
-										    <div class="form-group col-md-6">
-										      	<label for="patientContact">Contact Number</label>
-												<input name="patientContact" 
-													type="number" 
-													class="form-control" 
-													id="patientContact" 
-													aria-describedby="patientContactHelp" 
-													placeholder="Enter contact number" 
-													required
-													th:value="${patient.patientContact}"
-													/>
-										    </div>
-										    <div class="form-group col-md-6">
-										      	<label for="patientEmergencyContact">Emergency Contact Number</label>
-												<input name="patientEmergencyContact" 
-													type="number" 
-													class="form-control" 
+											<div class="form-group col-md-6">
+												<label for="patientContact">Mobile Number</label>
+												<input name="patientContact" type="tel" class="form-control"
+													id="patientContact" aria-describedby="patientContactHelp"
+													placeholder="Enter 10 digit mobile number" required maxlength="10"
+													pattern="[0-9]{10}" th:value="${patient.patientContact}" />
+											</div>
+											<div class="form-group col-md-6">
+												<label for="patientEmergencyContact">Emergency Contact Number</label>
+												<input name="patientEmergencyContact" type="tel" class="form-control"
 													id="patientEmergencyContact" 
-													aria-describedby="patientEmergencyContactHelp" 
-													placeholder="Enter contact number" 
-													required
-													th:value="${patient.patientEmergencyContact}"
-													/>
-										    </div>
-									 	</div>
-											
+													aria-describedby="patientEmergencyContactHelp"
+													placeholder="In case of landline, do not including starting 0 (zero)" required maxlength="10"
+													pattern="[0-9]{10}" th:value="${patient.patientEmergencyContact}" />
+											</div>
+										</div>
 										<label for="patientAddress">Address</label>
-										<input name="patientAddress" 
-											type="text" 
-											class="form-control" 
-											id="patientAddress" 
-											aria-describedby="patientAddressHelp" 
-											placeholder="Enter address" 
-											required
-											th:value="${patient.patientAddress}"
-											/>
-										
+										<input name="patientAddress" type="text" class="form-control"
+											id="patientAddress" aria-describedby="patientAddressHelp"
+											placeholder="Enter address" required th:value="${patient.patientAddress}" />
+
 										<div class="form-row mt-3">
-										    <div class="form-group col-md-6">
-										      	<label for="patientIllness">Primary Illness</label>
-												<input name="patientIllness" 
-													type="text" 
-													class="form-control" 
-													id="patientIllness" 
-													aria-describedby="patientIllnessHelp" 
-													placeholder="Enter primary illness" 
-													required
-													th:value="${patient.patientIllness}"
-													/>
-										    </div>
-										    <div class="form-group col-md-6">
-										      	<label for="patientpreferredDoctorGender">Doctor Gender Preference</label>
-										  	      <select class="custom-select mr-sm-2" name="patientpreferredDoctorGender" id="patientpreferredDoctorGender">
-											        <option selected>Choose...</option>
-											        <option value="1">Male</option>
-											        <option value="2">Female</option>
-											      </select>
-											    </div>
-										    </div>
-									 	</div>		
-				
+											<div class="form-group col-md-6">
+												<label for="patientIllness">Primary Illness</label>
+												<input name="patientIllness" type="text" class="form-control"
+													id="patientIllness" aria-describedby="patientIllnessHelp"
+													placeholder="Enter primary illness" required
+													th:value="${patient.patientIllness}" />
+											</div>
+											<div class="form-group col-md-6">
+												<label for="patientpreferredDoctorGender">Doctor Gender
+													Preference</label>
+												<select class="custom-select mr-sm-2"
+													name="patientpreferredDoctorGender"
+													id="patientpreferredDoctorGender">
+													<option selected>No Preference</option>
+													<option value="Male">Male</option>
+													<option value="Female">Female</option>
+												</select>
+											</div>
+										</div>
+
 										<label for="patientSymptoms">Symptoms</label>
-										<input name="patientSymptoms" 
-											type="text" 
-											class="form-control" 
-											id="patientSymptoms" 
-											aria-describedby="patientSymptomsHelp" 
-											placeholder="Enter symptoms" 
-											required
-											th:value="${patient.patientSymptoms}"
-											/>
-											
-										<div class="form-row mt-3">
-										    <div class="form-group col-md-6">
-										      	<label for="patientHealthPolicyOrg">Health Policy Organization</label>
-												<input name="patientHealthPolicyOrg" 
-													type="text" 
-													class="form-control" 
-													id="patientHealthPolicyOrg" 
-													aria-describedby="patientHealthPolicyOrgHelp" 
-													placeholder="Enter organization name" 
-													required
-													th:value="${patient.patientHealthPolicyOrg}"
-													/>
-										    </div>
-										    <div class="form-group col-md-6">
-										      	<label for="patientHealthPolicyNo">Health Policy Number</label>
-												<input name="patientHealthPolicyNo" 
-													type="text" 
-													class="form-control" 
-													id="patientHealthPolicyNo" 
-													aria-describedby="patientHealthPolicyNoHelp" 
-													placeholder="Enter policy number" 
-													required
-													th:value="${patient.patientHealthPolicyNo}"
-													/>
-										    </div>
-									 	</div>	
-									 	
-									 	<div>
-											<p>First Relative Information</p>
+										<input name="patientSymptoms" type="text" class="form-control"
+											id="patientSymptoms" aria-describedby="patientSymptomsHelp"
+											placeholder="Enter symptoms" required
+											th:value="${patient.patientSymptoms}" />
+									</div>
+
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="policyNumber">Policy Number</label>
+											<input name="policyDetails.policyNumber" type="text" class="form-control"
+												id="policyNumber" aria-describedby="policyNumberhelp"
+												placeholder="Enter contact number" required
+												th:value="${policyNumber}" />
 										</div>
-									 	
-									 	<div class="card">
-										  	<div class="card-body">
-										    	<div class="form-row">
-												    <div class="form-group col-md-4">
-												      	<label for="firstAccompanyingName">Relative Name</label>
-														<input name="patient1stRelative.firstAccompanyingName" 
-															type="text" 
-															class="form-control" 
-															id="firstAccompanyingName" 
-															aria-describedby="firstAccompanyingNameHelp" 
-															placeholder="Enter Relative Name" 
-															required
-															th:value="${firstAccompanyingName}"
-															/>
-												     </div>
-												     <div class="form-group col-md-4">
-												      	<label for="firstAccompanyingContact">Contact Number</label>
-														<input name="patient1stRelative.firstAccompanyingContact" 
-															type="text" 
-															class="form-control" 
-															id="firstAccompanyingContact" 
-															aria-describedby="firstAccompanyingContactHelp" 
-															placeholder="Enter contact number" 
-															required
-															th:value="${firstAccompanyingContact}"
-															/>
-												    </div>
-												    <div class="form-group col-md-4">
-												      	<label for="firstAccompanyingAdhaarNo">Adhaar Number</label>
-														<input name="patient1stRelative.firstAccompanyingAdhaarNo" 
-															type="text" 
-															class="form-control" 
-															id="firstAccompanyingAdhaarNo" 
-															aria-describedby="firstAccompanyingAdhaarNoHelp" 
-															placeholder="Enter adhaar number" 
-															required
-															th:value="${firstAccompanyingAdhaarNo}"
-															/>
-												    </div>
-									 			</div>
-										  	</div>
+										<div class="form-group col-md-6">
+											<label for="organization">Policy Organization</label>
+											<input name="policyDetails.organization" type="text" class="form-control"
+												id="organization" aria-describedby="organizationHelp"
+												placeholder="Enter policy organization" required
+												th:value="${organization}" />
 										</div>
-										
-										<div class="mt-3">
-											<p>Second Relative Information</p>
+									</div>
+
+
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="policyType">Policy Type</label>
+											<input name="policyDetails.policyType" type="text" class="form-control"
+												id="policyType" aria-describedby="policyTypeHelp"
+												placeholder="Enter policy type" required th:value="${policyType}" />
 										</div>
-										
-										<div class="card">
-										  	<div class="card-body">
-										    	<div class="form-row">
-												    <div class="form-group col-md-4">
-												      	<label for="secondAccompanyingName">Relative Name</label>
-														<input name="patient2ndRelative.secondAccompanyingName" 
-															type="text" 
-															class="form-control" 
-															id="secondAccompanyingName" 
-															aria-describedby="secondAccompanyingNameHelp" 
-															placeholder="Enter Relative Name" 
-															required
-															th:value="${secondAccompanyingName}"
-															/>
-												    </div>
-												    
-												     <div class="form-group col-md-4">
-												      	<label for="secondAccompanyingContact">Contact Number</label>
-														<input name="patient2ndRelative.secondAccompanyingContact" 
-															type="text" 
-															class="form-control" 
-															id="secondAccompanyingContact" 
-															aria-describedby="secondAccompanyingContactHelp" 
-															placeholder="Enter contact number" 
-															required
-															th:value="${secondAccompanyingContact}"
-															/>
-												    </div>
-												    <div class="form-group col-md-4">
-												      	<label for="secondAccompanyingAdhaarNo">Adhaar Number</label>
-														<input name="patient2ndRelative.secondAccompanyingAdhaarNo" 
-															type="text" 
-															class="form-control" 
-															id="secondAccompanyingAdhaarNo" 
-															aria-describedby="secondAccompanyingAdhaarNoHelp" 
-															placeholder="Enter adhaar number" 
-															required
-															th:value="${secondAccompanyingAdhaarNo}"
-															/>
-												    </div>
-									 			</div>
-										  	</div>
+										<div class="form-group col-md-6">
+											<label for="tenure">Policy Tenure</label>
+											<input name="policyDetails.tenure" type="text" class="form-control"
+												id="tenure" aria-describedby="tenureHelp"
+												placeholder="Enter policy tenure" required th:value="${tenure}" />
 										</div>
-	  								</div>
+									</div>
+
+									<!--
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<label for="startDate">Policy Start Date</label>
+												<input name="policyDetails.startDate" type="date" class="form-control"
+													id="startDate" aria-describedby="startDateHelp"
+													placeholder="Enter contact number" required th:value="${patient.policyDetails.startDate}" />
+											</div>
+											<div class="form-group col-md-6">
+												<label for="endDate">Policy End Date</label>
+												<input name="policyDetails.endDate" type="date" class="form-control"
+													id="endDate"
+													aria-describedby="endDateHelp"
+													placeholder="Enter contact number" required th:value="${patient.policyDetails.endDate}" />
+											</div>
+										</div>-->
+
+
+									<div>
+										<p>First Relative Information</p>
+									</div>
+									<div class="card">
+										<div class="card-body">
+											<div class="form-row">
+												<div class="form-group col-md-4">
+													<label for="firstAccompanyingName">Relative Name</label>
+													<input name="patient1stRelative.firstAccompanyingName" type="text"
+														class="form-control" id="firstAccompanyingName"
+														aria-describedby="firstAccompanyingNameHelp"
+														placeholder="Enter Relative Name" required
+														th:value="${firstAccompanyingName}" />
+												</div>
+												<div class="form-group col-md-4">
+													<label for="firstAccompanyingContact">Contact Number</label>
+													<input name="patient1stRelative.firstAccompanyingContact" type="tel"
+														class="form-control" id="firstAccompanyingContact"
+														aria-describedby="firstAccompanyingContactHelp"
+														placeholder="Enter 10 digit mobile number" required maxlength="10"
+														pattern="[0-9]{10}" th:value="${firstAccompanyingContact}" />
+												</div>
+												<div class="form-group col-md-4">
+													<label for="firstAccompanyingAdhaarNo">Adhaar Number</label>
+													<input name="patient1stRelative.firstAccompanyingAdhaarNo"
+														type="text" class="form-control" id="firstAccompanyingAdhaarNo"
+														aria-describedby="firstAccompanyingAdhaarNoHelp"
+														placeholder="Enter 12 digit adhaar number" required maxlength="12"
+														pattern="[0-9]{12}" th:value="${firstAccompanyingAdhaarNo}" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="mt-3">
+										<p>Second Relative Information</p>
+									</div>
+									<div class="card">
+										<div class="card-body">
+											<div class="form-row">
+												<div class="form-group col-md-4">
+													<label for="secondAccompanyingName">Relative Name</label>
+													<input name="patient2ndRelative.secondAccompanyingName" type="text"
+														class="form-control" id="secondAccompanyingName"
+														aria-describedby="secondAccompanyingNameHelp"
+														placeholder="Enter Relative Name" required
+														th:value="${secondAccompanyingName}" />
+												</div>
+												<div class="form-group col-md-4">
+													<label for="secondAccompanyingContact">Contact Number</label>
+													<input name="patient2ndRelative.secondAccompanyingContact"
+														type="tel" class="form-control" id="secondAccompanyingContact"
+														aria-describedby="secondAccompanyingContactHelp"
+														placeholder="Enter 10 digit mobile number" required maxlength="10"
+														pattern="[0-9]{10}" th:value="${secondAccompanyingContact}" />
+												</div>
+												<div class="form-group col-md-4">
+													<label for="secondAccompanyingAdhaarNo">Adhaar Number</label>
+													<input name="patient2ndRelative.secondAccompanyingAdhaarNo"
+														type="text" class="form-control" id="secondAccompanyingAdhaarNo"
+														aria-describedby="secondAccompanyingAdhaarNoHelp"
+														placeholder="Enter 12 digit adhaar number" required maxlength="12"
+														pattern="[0-9]{12}" th:value="${secondAccompanyingAdhaarNo}" />
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-row mt-3">
+										<div class="form-group col-md-6">
+											<label for="patientRoomType">Room Types</label>
+											<select class="custom-select mr-sm-2" name="roomType" id="patientRoomType">
+												<option selected>Select Room Type...</option>
+												<option value="DELUXE">DELUXE</option>
+												<option value="AC">AC</option>
+												<option value="NON-AC">NON-AC</option>
+											</select>
+
+										</div>
+
+
+										<!--<div class="form-group col-md-6">
+											<label for="roomNumber">Room Number</label>
+											<select class="custom-select mr-sm-2" name="roomNumber" id="roomNumber">
+												<option selected>Room Number...</option>
+												<option th:each="item : ${rooms}" th:value="${item}"
+													th:text="${item.roomNumber}">
+											</select>
+										</div>-->
+									</div>
 								</div>
 
-								<!--<div class="form-group">
-									<label for="exampleInputPassword1">Password</label>
-									<input name="password" type="password" class="form-control"
-										id="exampleInputPassword1" placeholder="Password" required>
-								</div>-->
-	
-								<div class="form-group form-check">
-									<input type="checkbox" name="agreement" class="form-check-input" id="agreement" required/>
-									<label for="agreement">I am agree to share my data</label>
+
+
+								<div class="container text-center">
+									<div class="form-group form-check">
+										<input type="checkbox" name="agreement" class="form-check-input" id="agreement"
+											required />
+										<label for="agreement">
+											<font color="red">terms and conditions</font>
+										</label>
+									</div>
 								</div>
-								
-								<div class="container text-center mt-2 mb-3">
-									<button type="submit" class="btn bg-success text-white col-md-3">
-										submit
-									</button>
-									<button type="reset" class="btn bg-warning text-white col-md-3">
-										reset
-									</button>
-								</div>
-						</form>
-					</div>
+							</div>
+						</div>
 				</div>
+
+
+				<div class="container text-center mt-3 mb-3">
+					<button type="submit" class="btn bg-success text-white col-md-3">
+						submit
+					</button>
+					<button type="reset" class="btn bg-warning text-white col-md-3">
+						reset
+					</button>
+				</div>
+				</form>
 			</div>
+		</div>
+
+		</div>
 		</div>
 	</section>
 </body>
+
 
 </html>

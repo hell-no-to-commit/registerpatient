@@ -1,16 +1,51 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
-	th:replace="base::layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<meta charset="UTF-8" />
-	<title>this is home page</title>
+	<!-- Required meta tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<link rel="stylesheet" th:href="@{css/style.css}">
+	<title>this is patient details page</title>
 </head>
 
-<body>
+<body background="../image/home-page.jpg">
+	<!--start of navbar-->
+
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #009688;">
+		<a class="navbar-brand" th:href="@{/}" href="#">Patient Management System</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+			aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ml-auto text-uppercase">
+				<li class="nav-item active">
+					<a class="nav-link" th:href="@{/}" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/about}" href="#">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/showPatients/0}" href="#">Patient List</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/registerPatient}" href="#">Register Patient</a>
+				</li>
+
+			</ul>
+		</div>
+	</nav>
+
+	<!--end of navbar-->
+
 
 	<section>
-		<div class="container card mt-3 bg-light" style="max-width: 40rem;">
+		<div class="container card mt-3 bg-light" style="max-width: 50rem;">
 			<div class="card-body">
 				<div class="container">
 					<h3 class="text-center"> <span th:text="${patient.patientName}"></span> ( <span
@@ -43,11 +78,11 @@
 							</tr>
 							<tr>
 								<th scope="row">Health Policy Organization</th>
-								<td><span th:text="${patient.patientHealthPolicyOrg}"></span></td>
+								<td><span th:text="${patient.policyDetails?.organization}"></span></td>
 							</tr>
 							<tr>
 								<th scope="row">Health Policy Number</th>
-								<td><span th:text="${patient.patientHealthPolicyNo}"></span></td>
+								<td><span th:text="${patient.policyDetails?.policyNumber}"></span></td>
 							</tr>
 							<tr>
 								<th scope="row">Contact Number</th>
@@ -67,60 +102,68 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-		</div>
+			
+			<div class="form-row">
+
+				<div class="container card" style="max-width: 40rem;">
 
 
-		<div class="form-row">
-			<div class="container card mt-3 bg-light" style="max-width: 30rem;">
-				<div class="card-body">
-					<div class="form-row ml-4">
-						<div class="form-table col-md-4">
-							<tr scope="row">
-								<h6>Name</h6>
-							</tr>
-							<td><span th:text="${patient.patient1stRelative.firstAccompanyingName}"></span></td>
+
+					<div class="card-body">
+						<p><strong>First Relative Information</strong></p>
+						<div class="form-row ml-4">
+							<div class="form-table col-md-4">
+								<tr scope="row">
+									<h6>Name</h6>
+								</tr>
+								<td><span th:text="${patient.patient1stRelative.firstAccompanyingName}"></span></td>
+							</div>
+							<div class="form-group col-md-4">
+								<th scope="row">
+									<h6>Contact</h6>
+								</th>
+								<td><span th:text="${patient.patient1stRelative.firstAccompanyingContact}"></span></td>
+							</div>
+							<div class="form-group col-md-4">
+								<th scope="row">
+									<h6>Adhaar</h6>
+								</th>
+								<td><span th:text="${patient.patient1stRelative.firstAccompanyingAdhaarNo}"></span></td>
+							</div>
 						</div>
-						<div class="form-group col-md-4">
-							<th scope="row">
-								<h6>Contact</h6>
-							</th>
-							<td><span th:text="${patient.patient1stRelative.firstAccompanyingContact}"></span></td>
-						</div>
-						<div class="form-group col-md-4">
-							<th scope="row">
-								<h6>Adhaar</h6>
-							</th>
-							<td><span th:text="${patient.patient1stRelative.firstAccompanyingAdhaarNo}"></span></td>
+					</div>
+				</div>
+				<div class="container card mt-3 mb-3" style="max-width: 40rem;">
+					<div class="card-body">
+						<p><strong>Second Relative Information</strong></p>
+						<div class="form-row ml-4">
+							<div class="form-table col-md-4">
+								<tr scope="row">
+									<h6>Name</h6>
+								</tr>
+								<td><span th:text="${patient.patient2ndRelative.secondAccompanyingName}"></span></td>
+							</div>
+							<div class="form-group col-md-4">
+								<th scope="row">
+									<h6>Contact</h6>
+								</th>
+								<td><span th:text="${patient.patient2ndRelative.secondAccompanyingContact}"></span></td>
+							</div>
+							<div class="form-group col-md-4">
+								<th scope="row">
+									<h6>Adhaar</h6>
+								</th>
+								<td><span th:text="${patient.patient2ndRelative.secondAccompanyingAdhaarNo}"></span>
+								</td>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="container card mt-3 bg-light" style="max-width: 30rem;">
-				<div class="card-body">
-					<div class="form-row ml-4">
-						<div class="form-table col-md-4">
-							<tr scope="row">
-								<h6>Name</h6>
-							</tr>
-							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingName}"></span></td>
-						</div>
-						<div class="form-group col-md-4">
-							<th scope="row">
-								<h6>Contact</h6>
-							</th>
-							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingContact}"></span></td>
-						</div>
-						<div class="form-group col-md-4">
-							<th scope="row">
-								<h6>Adhaar</h6>
-							</th>
-							<td><span th:text="${patient.patient2ndRelative.secondAccompanyingAdhaarNo}"></span></td>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
+</div>
+
+
 
 		<div class="text-center mt-2 mb-3">
 			<div class="container">
@@ -133,6 +176,20 @@
 			</div>
 		</div>
 	</section>
+	
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/js/script.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </body>
 
 </html>

@@ -13,13 +13,13 @@ public class SecondAccompanying {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "secondary_accompanying_id")
 	private int secondAccompanyingId;
-	
+
 	@Column(name = "secondary_accompanying_name")
 	private String secondAccompanyingName;
-	
+
 	@Column(name = "secondary_accompanying_contact_no")
 	private String secondAccompanyingContact;
-	
+
 	@Column(name = "secondary_accompanying_adhaar_no")
 	private String secondAccompanyingAdhaarNo;
 
@@ -76,5 +76,4 @@ public class SecondAccompanying {
 				+ ", secondAccompanyingAdhaarNo=" + secondAccompanyingAdhaarNo + "]";
 	}
 
-	
 }
