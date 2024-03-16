@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,9 +33,6 @@ import com.registerpatient.repository.PatientRepository;
 import com.registerpatient.repository.PolicyRepository;
 import com.registerpatient.service.CapacityManager;
 
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-
 @Controller
 public class HomeController {
 
@@ -44,11 +44,10 @@ public class HomeController {
 
 	@Autowired
 	HealthPolicyRepository healthPolicyRepository;
-	
+
 	@Autowired
 	PolicyRepository policyRepository;
 
-	
 	// HANDLER FOR HOME PAGE
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -57,16 +56,15 @@ public class HomeController {
 		rooms = capacityRepository.findById(1).get();
 		model.addAttribute("rooms", rooms);
 		int roomCapacity = 0;
-		
+
 		if (rooms.getCount() > 0) {
 			roomCapacity = rooms.getCount();
 		}
 		model.addAttribute("roomCapacity", roomCapacity);
-		
+
 		return "home";
 	}
 
-	
 	// HANDLER FOR ABOUT PAGE
 	@RequestMapping("/about")
 	public String about(Model model) {
@@ -74,7 +72,6 @@ public class HomeController {
 		return "about";
 	}
 
-	
 	// HANDLER FOR OPENING FORM FOR PATIENT REGISTRATION FORM
 	@RequestMapping("/registerPatient")
 	public ModelAndView registration(Model model, HttpSession session) {
@@ -100,7 +97,7 @@ public class HomeController {
 		List<HealthPolicyDetails> policyOrgs = this.healthPolicyRepository.findAll();
 		model.addAttribute("policyOrgs", policyOrgs);
 		System.out.println("roomCapacity: " + roomCapacity);
-	
+
 		if (roomCapacity == 0) {
 			session.setAttribute("message", new Message("Rooms are not available!!", "alert-danger"));
 		}
@@ -108,7 +105,6 @@ public class HomeController {
 		return new ModelAndView("registerPatient");
 	}
 
-	
 	// HANDLER FOR TAKING DETAILS DETAILS FROM PATIENT REGISTRATION FORM
 	@RequestMapping(value = "/do_register", method = RequestMethod.POST)
 	public String successRegistration(@Valid @ModelAttribute("patient") Patient patient, BindingResult result,
@@ -137,7 +133,7 @@ public class HomeController {
 						&& policy.getHealthPolicyOrg().equals(patient.getPolicyDetails().getOrganization())) {
 
 					System.out.println("POLICY FOUND");
-					
+
 					isValidPolicy = true;
 				}
 			}
@@ -165,7 +161,6 @@ public class HomeController {
 			return "registerPatient";
 		}
 	}
-	
 
 	// HANDLER FOR SHOWING PATIENT
 	// Per page 5 contacts
@@ -191,7 +186,6 @@ public class HomeController {
 		return "showPatients";
 	}
 
-	
 	// HANDLER FOR SHOWING PARTICULAR PATIENT DETAILS
 	@RequestMapping("/patient/{patientId}")
 	public String showPatientDetails(@PathVariable("patientId") Integer patientId, Model model) {
@@ -206,7 +200,6 @@ public class HomeController {
 
 		return "patientDetails";
 	}
-	
 
 	// HANDLER FOR OPENING FORM OF UPDATING PATIENT DETAILS
 	@PostMapping("/updatePatient/{patientId}")
@@ -219,7 +212,6 @@ public class HomeController {
 		return "updatePatient";
 	}
 
-	
 	// HANDLER FOR PROCESSING FORM OF UPDATING PATIENT DETAILS
 	@RequestMapping(value = "/do_update", method = RequestMethod.POST)
 	public String successupdation(@ModelAttribute Patient patient, Model model, HttpSession session,

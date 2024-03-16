@@ -1,11 +1,11 @@
 package com.registerpatient.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "bed_capacity")
 @Entity
@@ -14,7 +14,7 @@ public class RoomCapacity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(name = "count")
 	private int count;
 
@@ -33,6 +33,5 @@ public class RoomCapacity {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
+
 }
