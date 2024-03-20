@@ -1,4 +1,6 @@
-package com.registerpatient.config;
+/*
+ package com.registerpatient.config;
+ 
 
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +20,8 @@ public class CustomUserDetails implements UserDetails {
 		this.user = user;
 	}
 
+
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -27,38 +31,35 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-
 		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-
-		return user.getMailId();
+		return user.getUsername();
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-
 		return true;
 	}
 
+	
 }
+
+*/

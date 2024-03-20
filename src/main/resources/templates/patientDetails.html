@@ -17,7 +17,7 @@
 	<!--start of navbar-->
 
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #009688;">
-		<a class="navbar-brand" th:href="@{/}" href="#">Patient Management System</a>
+		<a class="navbar-brand" th:href="@{/home}" href="#">Patient Management System</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
 			aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -160,6 +160,25 @@
 					</div>
 				</div>
 			</div>
+			
+			
+			<table class="table">
+						
+						<tbody>
+							<tr>
+								<th scope="row">Referred Doctor</th>
+								<!--<td><span th:text="${specialist.doctorName != null ? specialist.doctorName : 'NA'}"></span></td>-->
+							</tr>
+							<tr>
+								<th scope="row">Treatment Information</th>
+								<!--<td><span th:text="${patient.patientIllness}"></span></td>-->
+							</tr>
+							
+						</tbody>
+					</table>
+			
+			
+			
 		</div>
 </div>
 

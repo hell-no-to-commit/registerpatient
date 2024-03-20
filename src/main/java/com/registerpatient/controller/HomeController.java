@@ -3,8 +3,6 @@ package com.registerpatient.controller;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +24,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.registerpatient.entities.HealthPolicyDetails;
 import com.registerpatient.entities.Patient;
 import com.registerpatient.entities.RoomCapacity;
+import com.registerpatient.entities.TreatmentHistory;
 import com.registerpatient.helper.Message;
 import com.registerpatient.repository.CapacityRepository;
 import com.registerpatient.repository.HealthPolicyRepository;
 import com.registerpatient.repository.PatientRepository;
 import com.registerpatient.repository.PolicyRepository;
 import com.registerpatient.service.CapacityManager;
+import com.registerpatient.service.TreatmentService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -47,6 +49,9 @@ public class HomeController {
 
 	@Autowired
 	PolicyRepository policyRepository;
+	
+	@Autowired
+    TreatmentService treatmentService;
 
 	// HANDLER FOR HOME PAGE
 	@RequestMapping("/")
@@ -205,6 +210,11 @@ public class HomeController {
 	@PostMapping("/updatePatient/{patientId}")
 	public String updatePatientDetails(@PathVariable("patientId") Integer patientId, Model model) {
 		model.addAttribute("title", "PATIENT DETAILS-Patient Management");
+		
+		
+		// code for enabling admin features for entering treatment details
+		boolean admin = true; // Example: Check if user is an admin
+        model.addAttribute("admin", admin);
 
 		Optional<Patient> foundPatient = this.patientRepository.findById(patientId);
 		Patient patient = foundPatient.get();
@@ -223,4 +233,33 @@ public class HomeController {
 
 	}
 
+	
+	 /*
+	  this handler code is not completed
+	 
+	//HANDLER FOR SAVING TREATMENT DETAILS
+	@PostMapping("/updateTreatment/{patientId}")
+    public String updateTreatment(@PathVariable Integer patientId,Model model, @RequestParam String treatmentInformation) {
+		
+		Optional<Patient> foundPatient = this.patientRepository.findById(patientId);
+		Patient patient = foundPatient.get();
+
+		model.addAttribute("patient", patient);
+		
+		TreatmentHistory treatmentHistory = new TreatmentHistory();
+	        treatmentHistory.setPatient(patient);
+	        treatmentHistory.setTreatmentInformation(treatmentInformation);
+	        treatmentService.saveTreatmentHistory(patientId, treatmentInformation);
+			return treatmentInformation;
+
+    }
+	
+	@RequestMapping(value = "/do_updateTreatment", method = RequestMethod.GET)
+    public String successUpdateTreatment(@PathVariable Integer patientId, @RequestParam String treatmentInformation) {
+        treatmentService.saveTreatmentHistory(patientId, treatmentInformation);
+        return "redirect:/patientDetails/{patientId}";
+    }
+	
+	*/
+	
 }

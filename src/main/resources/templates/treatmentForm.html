@@ -1,0 +1,4 @@
+<form th:action="@{/updateTreatment/{patientId}(patientId=${patient.id})}" method="get">
+    <input type="text" name="treatmentInformation" placeholder="Enter treatment information" required>
+    <button type="submit">Update Treatment</button>
+</form>
